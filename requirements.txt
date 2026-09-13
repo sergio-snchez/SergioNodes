@@ -1,0 +1,9 @@
+gguf>=0.13.0
+# optional: tokenizer reconstruction for some CLIP GGUFs
+sentencepiece
+protobuf
+# NKDFaceRig: model download, detection and inference
+huggingface_hub
+opencv-python
+onnxruntime
+scipy
