@@ -11,7 +11,7 @@ Custom nodes para ComfyUI (categoría **Sergio Nodes**). Clónalo en
 - **CLIPLoader (GGUF)** — carga de CLIP cuantizado GGUF (con reconstrucción de tokenizer opcional).
 - **Multi-Lora Loader** — apilado de múltiples LoRAs sobre un modelo base con control de fuerza por socket.
 - **NKDFaceRig** — face rigging (port de Face Rig de NKD): animación facial con movimiento, máscaras y preview en canvas. Descarga automáticamente los modelos LivePortrait y de detección (YuNet) al primer uso.
-- **TrixBypasser / TrixBypasserSimple** — bypass/mute de nodos desde el canvas con lista de objetivos, grupos y picker (port de comfyui-trixnodes adaptado a Nodes 2.0 vía DOM widget).
+- **Bypass Groups by ID / Bypass Nodes by ID** (`TrixBypasser`/`TrixBypasserSimple`) — bypass/mute de nodos desde el canvas con lista de objetivos, grupos y picker (port de comfyui-trixnodes adaptado a Nodes 2.0 vía DOM widget).
 - **Node ID en menú contextual** — extensión frontend que añade "Node ID: N" (con copia al portapapeles) al clic derecho de cualquier nodo.
 
 > Válido para ComfyUI API V3 / Nodes 2.0 y frontend clásico.

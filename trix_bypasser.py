@@ -23,15 +23,9 @@ class TrixBypasser(io.ComfyNode):
     def define_schema(cls) -> io.Schema:
         return io.Schema(
             node_id="TrixBypasser",
-            display_name="Trix Bypass Nodes w Groups by ID",
+            display_name="Bypass Groups by ID",
             category="Sergio Nodes",
-            description=(
-                "Bypass or mute any node on the canvas from a grouped list. Add "
-                "targets by picking nodes on the canvas; each group and target "
-                "has its own switch, and the eye button centers the viewport on "
-                "the target. The state is applied client-side by the bundled "
-                "extension in web/trix_bypasser.js."
-            ),
+            description="Sergio Nodes",
             hidden=[io.Hidden.unique_id],
         )
 
@@ -47,15 +41,9 @@ class TrixBypasserSimple(io.ComfyNode):
     def define_schema(cls) -> io.Schema:
         return io.Schema(
             node_id="TrixBypasserSimple",
-            display_name="Trix Bypass Nodes by ID",
+            display_name="Bypass Nodes by ID",
             category="Sergio Nodes",
-            description=(
-                "Bypass or mute any node on the canvas from a flat list. Add "
-                "targets by picking nodes on the canvas; each target has its own "
-                "switch, and the eye button centers the viewport on it. The state "
-                "is applied client-side by the bundled extension in "
-                "web/trix_bypasser.js."
-            ),
+            description="Sergio Nodes",
             hidden=[io.Hidden.unique_id],
         )
 

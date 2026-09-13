@@ -155,13 +155,7 @@ class NKDFaceRig(io.ComfyNode):
             node_id="NKDFaceRig",
             display_name="Face Rig",
             category="Sergio Nodes",
-            description=(
-                "Edit a portrait's expression with draggable controls sitting on the face "
-                "itself, previewed live. Open the rig from the node's button; the handles "
-                "hang off the detected landmarks, left and right eyes and brows move "
-                "independently, and the expression presets are the standard FACS "
-                "combinations rather than invented ones."
-            ),
+            description="Sergio Nodes",
             # An output node so the editor can run just this node and whatever
             # feeds it. Without that the only picture it can reach is a Load
             # Image thumbnail, and anything computed upstream — a 😺NKD Face
