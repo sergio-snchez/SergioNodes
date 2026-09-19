@@ -6,4 +6,3 @@ protobuf
 huggingface_hub
 opencv-python
 onnxruntime
-scipy

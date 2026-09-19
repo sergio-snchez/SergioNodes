@@ -33,7 +33,7 @@ import numpy as np
 import torch
 
 from . import blur_core
-from .nkd_liveportrait.utils.crop import (
+from .utils.crop import (
     _transform_pts,
     crop_image,
     crop_image_by_bbox,
@@ -243,7 +243,7 @@ class FaceLandmarks:
         # code — and its tests — import on a machine that has neither it nor
         # the weights.
         import onnxruntime  # noqa: PLC0415
-        from .nkd_liveportrait.utils.human_landmark_runner import LandmarkRunner  # noqa: PLC0415
+        from .utils.human_landmark_runner import LandmarkRunner  # noqa: PLC0415
 
         cuda = "CUDAExecutionProvider" in onnxruntime.get_available_providers()
         if cuda:

@@ -3,7 +3,7 @@
 😺NKD Face Rig — the LivePortrait engine, on our own terms.
 
 The engine is self-contained: LivePortrait is MIT, so we vendor it (see
-`nkd_liveportrait/NOTICE`) and keep everything we add outside that directory.
+`NOTICE.liveportrait`) and keep everything we add outside the vendored files.
 No other custom node is imported or required.
 
 Two deliberate departures from upstream:
@@ -43,12 +43,12 @@ import numpy as np
 import torch
 import yaml
 
-from .nkd_liveportrait.modules.appearance_feature_extractor import AppearanceFeatureExtractor
-from .nkd_liveportrait.modules.motion_extractor import MotionExtractor
-from .nkd_liveportrait.modules.spade_generator import SPADEDecoder
-from .nkd_liveportrait.modules.stitching_retargeting_network import StitchingRetargetingNetwork
-from .nkd_liveportrait.modules.warping_network import WarpingNetwork
-from .nkd_liveportrait.utils.camera import get_rotation_matrix, headpose_pred_to_degree
+from .modules.appearance_feature_extractor import AppearanceFeatureExtractor
+from .modules.motion_extractor import MotionExtractor
+from .modules.spade_generator import SPADEDecoder
+from .modules.stitching_retargeting_network import StitchingRetargetingNetwork
+from .modules.warping_network import WarpingNetwork
+from .utils.camera import get_rotation_matrix, headpose_pred_to_degree
 
 from .nkd_face_core import (  # noqa: F401 — re-exported, the routes and tests import them from here
     HF_REPO,
@@ -68,8 +68,8 @@ from .nkd_face_core import (  # noqa: F401 — re-exported, the routes and tests
 )
 
 _HERE = osp.dirname(osp.abspath(__file__))
-_CFG = osp.join(_HERE, "nkd_liveportrait", "config", "models.yaml")
-_MASK = osp.join(_HERE, "nkd_liveportrait", "utils", "mask_template.png")
+_CFG = osp.join(_HERE, "config", "models.yaml")
+_MASK = osp.join(_HERE, "utils", "mask_template.png")
 
 
 @dataclass

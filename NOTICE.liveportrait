@@ -1,0 +1,31 @@
+This package vendors a subset of LivePortrait, copied verbatim from
+
+    https://github.com/KwaiVGI/LivePortrait   (now KlingAIResearch/LivePortrait)
+
+released under the MIT License (see LICENSE.liveportrait), Copyright (c) 2024
+Kuaishou Visual Generation and Interaction Center.
+
+Do not edit these source files. They are a dependency we ship rather than code
+we maintain; keeping them byte-identical to upstream is what makes updating them
+a re-download instead of a merge. Everything NKD adds lives in the root
+`nkd_face_rig_*.py` files.
+
+Layout: the vendored files sit in the package root, next to our own code:
+
+  modules/     the four networks of the paper (appearance feature extractor,
+               motion extractor, warping module, SPADE generator) plus the
+               Stage II stitching/retargeting MLPs.
+  utils/       camera (rotation matrices), crop, landmark runner, and small
+               helpers. `mask_template.png` is shipped here too.
+  config/      models.yaml — num_kp: 21 and the rest of the architecture.
+
+Pruned from upstream: `helper.py` (its `load_model` breaks on torch >= 2.6 and
+the rig has its own loader) and `retargeting_utils.py` (retargeting ratios,
+never imported). Nothing in this package uses them.
+
+NOT copied: `utils/dependencies/insightface/` and `utils/dependencies/XPose/`.
+InsightFace carries a "non-commercial research purposes only" clause, and XPose
+is only needed for the animals model. Face detection here is MediaPipe
+(Apache-2.0) instead, which keeps the whole node MIT/Apache.
+
+Upstream commit: main branch as of 2026-08-20.
