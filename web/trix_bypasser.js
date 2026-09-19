@@ -397,8 +397,15 @@ class TrixUI {
     del.textContent = "×";
     del.title = "Remove target";
     del.addEventListener("click", () => {
-      const i = this.state.targets.indexOf(target);
-      if (i >= 0) this.state.targets.splice(i, 1);
+      if (this.isSimple) {
+        const i = this.state.targets.indexOf(target);
+        if (i >= 0) this.state.targets.splice(i, 1);
+      } else {
+        for (const g of this.state.groups) {
+          const i = (g.targets || []).indexOf(target);
+          if (i >= 0) { g.targets.splice(i, 1); break; }
+        }
+      }
       this.commit(true);
     });
     row.appendChild(del);

@@ -23,6 +23,7 @@ from .multilora_loader import (
 from .nkd_face_rig import NKDFaceRig
 from . import nkd_face_rig_routes  # noqa: F401 — registers /nkd/facerig/*
 from .trix_bypasser import TrixBypasser, TrixBypasserSimple
+from .preview_video import PreviewVideo
 
 FACERIG_CLASS_MAPPINGS = {
     "NKDFaceRig": NKDFaceRig,
@@ -33,6 +34,15 @@ TRIX_CLASS_MAPPINGS = {
     "TrixBypasserSimple": TrixBypasserSimple,
 }
 
+PREVIEW_VIDEO_CLASS_MAPPINGS = {
+    "PreviewVideo": PreviewVideo,
+    "SergioNodes_PreviewVideo": PreviewVideo,
+}
+PREVIEW_VIDEO_DISPLAY_MAPPINGS = {
+    "PreviewVideo": "Preview Video",
+    "SergioNodes_PreviewVideo": "Preview Video",
+}
+
 NODE_CLASS_MAPPINGS = {
     **RESOLUTION_CLASS_MAPPINGS,
     **KSAMPLER_CLASS_MAPPINGS,
@@ -40,12 +50,14 @@ NODE_CLASS_MAPPINGS = {
     **MULTILORA_CLASS_MAPPINGS,
     **FACERIG_CLASS_MAPPINGS,
     **TRIX_CLASS_MAPPINGS,
+    **PREVIEW_VIDEO_CLASS_MAPPINGS,
 }
 NODE_DISPLAY_NAME_MAPPINGS = {
     **RESOLUTION_DISPLAY_MAPPINGS,
     **KSAMPLER_DISPLAY_MAPPINGS,
     **GGUF_DISPLAY_MAPPINGS,
     **MULTILORA_DISPLAY_MAPPINGS,
+    **PREVIEW_VIDEO_DISPLAY_MAPPINGS,
 }
 
 __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS']
