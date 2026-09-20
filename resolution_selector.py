@@ -6,6 +6,12 @@ from aiohttp import web
 from PIL import Image
 
 class AcademiaResolutionCalc:
+    DESCRIPTION = (
+        "Computes a resolution (WIDTH, HEIGHT) from a target megapixel count and "
+        "aspect ratio, snapped to a divisible value (8/16/32/64). A preset list of "
+        "portrait and landscape ratios covers most formats, or enter a custom W:H ratio."
+    )
+
     def __init__(self):
         pass
 

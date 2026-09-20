@@ -24,10 +24,27 @@ from .nkd_face_rig import NKDFaceRig
 from . import nkd_face_rig_routes  # noqa: F401 — registers /nkd/facerig/*
 from .trix_bypasser import TrixBypasser, TrixBypasserSimple
 from .preview_video import PreviewVideo
+from .compare_videos import (
+    NODE_CLASS_MAPPINGS as COMPARE_CLASS_MAPPINGS,
+    NODE_DISPLAY_NAME_MAPPINGS as COMPARE_DISPLAY_MAPPINGS,
+)
 from .minimax_h3_upscaler_3d import (
     NODE_CLASS_MAPPINGS as MINIMAXH3_CLASS_MAPPINGS,
     NODE_DISPLAY_NAME_MAPPINGS as MINIMAXH3_DISPLAY_MAPPINGS,
 )
+
+from .nodes import DLSS5EnhanceImages, DLSS5EnhanceVideoFile, DLSS5SettingsNode
+
+DLSS5_CLASS_MAPPINGS = {
+    "DLSS5Settings": DLSS5SettingsNode,
+    "DLSS5EnhanceImages": DLSS5EnhanceImages,
+    "DLSS5EnhanceVideoFile": DLSS5EnhanceVideoFile,
+}
+DLSS5_DISPLAY_MAPPINGS = {
+    "DLSS5Settings": "DLSS5 Settings",
+    "DLSS5EnhanceImages": "DLSS5 Enhance Images",
+    "DLSS5EnhanceVideoFile": "DLSS5 Enhance Video File",
+}
 
 FACERIG_CLASS_MAPPINGS = {
     "NKDFaceRig": NKDFaceRig,
@@ -55,7 +72,9 @@ NODE_CLASS_MAPPINGS = {
     **FACERIG_CLASS_MAPPINGS,
     **TRIX_CLASS_MAPPINGS,
     **PREVIEW_VIDEO_CLASS_MAPPINGS,
+    **COMPARE_CLASS_MAPPINGS,
     **MINIMAXH3_CLASS_MAPPINGS,
+    **DLSS5_CLASS_MAPPINGS,
 }
 NODE_DISPLAY_NAME_MAPPINGS = {
     **RESOLUTION_DISPLAY_MAPPINGS,
@@ -63,7 +82,9 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     **GGUF_DISPLAY_MAPPINGS,
     **MULTILORA_DISPLAY_MAPPINGS,
     **PREVIEW_VIDEO_DISPLAY_MAPPINGS,
+    **COMPARE_DISPLAY_MAPPINGS,
     **MINIMAXH3_DISPLAY_MAPPINGS,
+    **DLSS5_DISPLAY_MAPPINGS,
 }
 
 __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS']

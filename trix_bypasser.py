@@ -25,7 +25,11 @@ class TrixBypasser(io.ComfyNode):
             node_id="TrixBypasser",
             display_name="Bypass Groups by ID",
             category="Sergio Nodes",
-            description="Sergio Nodes",
+            description=(
+                "Groups target nodes by ID and lets you toggle bypass or mute on the "
+                "whole group from the canvas. Pure frontend controller: renders its "
+                "target list in the node and applies the toggle to the named nodes."
+            ),
             hidden=[io.Hidden.unique_id],
         )
 
@@ -43,7 +47,11 @@ class TrixBypasserSimple(io.ComfyNode):
             node_id="TrixBypasserSimple",
             display_name="Bypass Nodes by ID",
             category="Sergio Nodes",
-            description="Sergio Nodes",
+            description=(
+                "Flat list of target nodes by ID; toggles bypass or mute on each one "
+                "from the canvas. Pure frontend controller — executing it does not "
+                "change anything."
+            ),
             hidden=[io.Hidden.unique_id],
         )
 

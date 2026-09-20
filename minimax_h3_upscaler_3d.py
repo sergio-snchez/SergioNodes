@@ -467,6 +467,13 @@ class MinimaxH3LatentUpscaler3D(io.ComfyNode):
             node_id="MinimaxH3LatentUpscaler3D",
             display_name="Minimax H3 Latent Upscaler (3D)",
             category="Sergio Nodes",
+            description=(
+                "Upscales image or video latents with the MiniMax H3 latent upscaler: "
+                "temporal chunking with replicate padding for low-VRAM video, zero-copy "
+                "model loading, on-device CUDA/ROCm/CPU backends and fp32/fp16/bf16 "
+                "precision. Mode picks scale by multiplier, target dimensions or "
+                "megapixels; align snaps the output to a pixel multiple."
+            ),
             search_aliases=["minimax", "h3", "latent", "upscale", "3d"],
             inputs=[
                 io.AnyType.Input("latent", tooltip="Latente de entrada (imagen o vídeo)."),

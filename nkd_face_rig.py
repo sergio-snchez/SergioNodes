@@ -155,7 +155,12 @@ class NKDFaceRig(io.ComfyNode):
             node_id="NKDFaceRig",
             display_name="Face Rig",
             category="Sergio Nodes",
-            description="Sergio Nodes",
+            description=(
+                "Poses a portrait's face from a canvas rig: adjust the 3D pose handles "
+                "in the node's editor to rotate, pan and tilt the head, then blend the "
+                "posed face back into the original shoulders (stitching). Optionally "
+                "adds an expression from another rig."
+            ),
             # An output node so the editor can run just this node and whatever
             # feeds it. Without that the only picture it can reach is a Load
             # Image thumbnail, and anything computed upstream — a 😺NKD Face

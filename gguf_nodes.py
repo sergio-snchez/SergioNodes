@@ -134,6 +134,11 @@ class GGUFModelPatcher(comfy.model_patcher.ModelPatcher):
         return n
 
 class UnetLoaderGGUF:
+    DESCRIPTION = (
+        "Loads a GGUF-quantized diffusion model from the unet_gguf folder, running "
+        "on GPU-friendly GGML custom operations for low-VRAM inference."
+    )
+
     @classmethod
     def INPUT_TYPES(s):
         unet_names = [x for x in folder_paths.get_filename_list("unet_gguf")]
@@ -185,6 +190,12 @@ class UnetLoaderGGUF:
         return (model,)
 
 class CLIPLoaderGGUF:
+    DESCRIPTION = (
+        "Loads a text encoder from either a GGUF-quantized or a regular clip "
+        "checkpoint, keeping quantization-friendly GGML custom operations for "
+        "low-VRAM inference."
+    )
+
     @classmethod
     def INPUT_TYPES(s):
         base = nodes.CLIPLoader.INPUT_TYPES()

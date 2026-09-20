@@ -212,6 +212,12 @@ class MultiLoraLoader:
     and strength control.  The actual list is stored as a JSON string in a
     hidden STRING widget; all UI is driven by the companion JS extension."""
 
+    DESCRIPTION = (
+        "Loads and chains several LoRAs in one node, each with its own enable "
+        "toggle and strength, driven by the companion JS extension. Optionally "
+        "patches the CLIP when the Standard (Native) injection method is used."
+    )
+
     @classmethod
     def INPUT_TYPES(cls):
         return {

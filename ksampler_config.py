@@ -5,6 +5,12 @@ from nodes import MAX_RESOLUTION
 class KSamplerConfig:
     """Sin dependencias externas. Clon del KSampler Config de rgthree."""
 
+    DESCRIPTION = (
+        "Pre-configures sampling settings — seed, total steps, refiner step, CFG, "
+        "sampler and scheduler — as individual outputs to wire into a sampler node. "
+        "Clone of rgthree's KSampler Config."
+    )
+
     @classmethod
     def INPUT_TYPES(cls):
         return {
