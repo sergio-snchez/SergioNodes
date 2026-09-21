@@ -5,6 +5,8 @@ math) is used by the rig.
 """
 from __future__ import annotations
 
+UPSTREAM = ("😺NKD Basic Tools (helpers del Face Rig)", "https://github.com/Nekodificador/ComfyUI-NKD-Basic-Tools", "modalidades internas del port")
+
 import numpy as np
 
 # Last frame pushed per node, kept so the rig's preview route has something to

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+UPSTREAM = None  # motor interno original de SergioNodes (diagnóstico del runtime)
+
 import hashlib
 import re
 import subprocess

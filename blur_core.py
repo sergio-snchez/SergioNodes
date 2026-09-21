@@ -21,6 +21,8 @@ accelerator. Three ideas carry the three nodes:
 """
 from __future__ import annotations
 
+UPSTREAM = ("😺NKD Basic Tools (Selector/Vector Mask + Path Blur + Field Blur)", "https://github.com/Nekodificador/ComfyUI-NKD-Basic-Tools", "modalidades internas del port")
+
 import json
 
 import numpy as np

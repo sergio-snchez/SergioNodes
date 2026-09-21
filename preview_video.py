@@ -10,6 +10,8 @@ temp directory, and displays the interactive video player right inside the node.
 """
 from __future__ import annotations
 
+UPSTREAM = None  # nodo original de SergioNodes (sin upstream; cubre el hueco entre Preview Image y Save Video)
+
 import torch
 from comfy_api.latest import io
 

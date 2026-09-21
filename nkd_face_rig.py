@@ -16,6 +16,8 @@ photo or the crop actually changes.
 """
 from __future__ import annotations
 
+UPSTREAM = ("😺NKD Face Rig", "https://github.com/Nekodificador/ComfyUI-NKD-Basic-Tools", "NKDFaceRig")
+
 import hashlib
 from dataclasses import dataclass, field
 

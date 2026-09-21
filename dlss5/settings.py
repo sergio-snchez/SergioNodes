@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+UPSTREAM = None  # motor interno original de SergioNodes; controles equivalentes a los del pack ComfyUI-DLSS5-Enhancer
+
 import math
 from dataclasses import dataclass
 

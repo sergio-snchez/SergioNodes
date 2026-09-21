@@ -5,6 +5,8 @@ Warping field estimator(W) defined in the paper, which generates a warping field
 keypoint representations x_s and x_d, and employs this flow field to warp the source feature volume f_s.
 """
 
+UPSTREAM = ("LivePortrait (módulos)", "https://github.com/KwaiVGI/LivePortrait", "módulos internos vendidos via NKD")
+
 from torch import nn
 import torch.nn.functional as F
 from .util import SameBlock2d

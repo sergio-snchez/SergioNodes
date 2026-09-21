@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+UPSTREAM = ("ComfyUI-DLSS5-Enhancer (Enhance Video File)", "https://github.com/Blueforcer/ComfyUI-DLSS5-Enhancer", "DLSS5EnhanceVideoFile")
+
 import queue
 import threading
 import time

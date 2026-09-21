@@ -7,6 +7,8 @@ user points at an existing DLSS 5 Visual Enhancer installation.
 
 from __future__ import annotations
 
+UPSTREAM = None  # motor interno original de SergioNodes; interfaz clona ComfyUI-DLSS5-Enhancer y el runtime viene de Merserk/dlss5-visual-enhancer
+
 import json
 import os
 import shutil

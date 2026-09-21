@@ -4,6 +4,8 @@
 functions for processing and transforming 3D facial keypoints
 """
 
+UPSTREAM = ("LivePortrait (utils)", "https://github.com/KwaiVGI/LivePortrait", "utils vendidos via NKD")
+
 import numpy as np
 import torch
 import torch.nn.functional as F

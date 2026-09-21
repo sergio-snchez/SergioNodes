@@ -6,6 +6,8 @@ protocol, runtime or driver problem can be isolated from workflow issues.
 
 from __future__ import annotations
 
+UPSTREAM = None  # motor interno original de SergioNodes (smoke test del protocolo DLSS5)
+
 import argparse
 import sys
 

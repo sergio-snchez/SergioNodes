@@ -1,3 +1,5 @@
+UPSTREAM = ("KSampler Config", "https://github.com/rgthree/rgthree-comfy", "KSamplerConfig")
+
 import comfy.samplers
 from nodes import MAX_RESOLUTION
 

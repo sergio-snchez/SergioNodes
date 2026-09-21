@@ -5,6 +5,8 @@ This file defines various neural network modules and utility functions, includin
 normalizations, and functions for spatial transformation and tensor manipulation.
 """
 
+UPSTREAM = ("LivePortrait (módulos)", "https://github.com/KwaiVGI/LivePortrait", "módulos internos vendidos via NKD")
+
 from torch import nn
 import torch.nn.functional as F
 import torch

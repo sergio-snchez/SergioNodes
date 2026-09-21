@@ -1,3 +1,5 @@
+# UPSTREAM de cada nodo: constante UPSTREAM en su fichero / tabla en ORIGINS.md.
+# Uso: al pedir "check de updates", comparar contra el repo upstream indicado.
 WEB_DIRECTORY = "./web"
 
 from .resolution_selector import (

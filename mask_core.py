@@ -23,6 +23,8 @@ Three ideas do the heavy lifting:
 """
 from __future__ import annotations
 
+UPSTREAM = ("😺NKD Basic Tools (motor de máscaras)", "https://github.com/Nekodificador/ComfyUI-NKD-Basic-Tools", "modalidades internas del port")
+
 import inspect
 import math
 

@@ -38,6 +38,8 @@ runs anywhere in a second.
 """
 from __future__ import annotations
 
+UPSTREAM = ("😺NKD Face Rig (librería de ejes)", "https://github.com/Nekodificador/ComfyUI-NKD-Basic-Tools", "modalidades internas del port")
+
 import json
 import os
 import os.path as osp

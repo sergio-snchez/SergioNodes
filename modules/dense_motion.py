@@ -4,6 +4,8 @@
 The module that predicting a dense motion from sparse motion representation given by kp_source and kp_driving
 """
 
+UPSTREAM = ("LivePortrait (módulos)", "https://github.com/KwaiVGI/LivePortrait", "módulos internos vendidos via NKD")
+
 from torch import nn
 import torch.nn.functional as F
 import torch

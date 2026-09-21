@@ -25,6 +25,8 @@ Two things are deliberately not models:
 """
 from __future__ import annotations
 
+UPSTREAM = ("😺NKD Basic Tools (cara: crop/mask/landmarks)", "https://github.com/Nekodificador/ComfyUI-NKD-Basic-Tools", "nkd_face_crop / nkd_face_mask / nkd_face_stitch")
+
 import os.path as osp
 import threading
 

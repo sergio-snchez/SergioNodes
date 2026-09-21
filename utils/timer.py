@@ -4,6 +4,8 @@
 tools to measure elapsed time
 """
 
+UPSTREAM = ("LivePortrait (utils)", "https://github.com/KwaiVGI/LivePortrait", "utils vendidos via NKD")
+
 import time
 
 class Timer(object):

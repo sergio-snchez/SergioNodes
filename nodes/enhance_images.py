@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+UPSTREAM = ("ComfyUI-DLSS5-Enhancer (Enhance Images)", "https://github.com/Blueforcer/ComfyUI-DLSS5-Enhancer", "DLSS5EnhanceImages")
+
 import torch
 from comfy_api.latest import io
 from comfy.model_management import throw_exception_if_processing_interrupted

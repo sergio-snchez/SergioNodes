@@ -1,5 +1,6 @@
 # (c) City96 || Apache-2.0 (apache.org/licenses/LICENSE-2.0)
 # Ported from ComfyUI-GGUF nodes.py: only UnetLoaderGGUF and CLIPLoaderGGUF.
+UPSTREAM = ("ComfyUI-GGUF (UnetLoaderGGUF / CLIPLoaderGGUF)", "https://github.com/city96/ComfyUI-GGUF", "UnetLoaderGGUF; CLIPLoaderGGUF")
 import torch
 import logging
 import inspect

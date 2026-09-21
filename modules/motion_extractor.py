@@ -4,6 +4,8 @@
 Motion extractor(M), which directly predicts the canonical keypoints, head pose and expression deformation of the input image
 """
 
+UPSTREAM = ("LivePortrait (módulos)", "https://github.com/KwaiVGI/LivePortrait", "módulos internos vendidos via NKD")
+
 from torch import nn
 import torch
 

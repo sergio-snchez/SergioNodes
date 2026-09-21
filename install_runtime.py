@@ -12,6 +12,8 @@ Usage:
 
 from __future__ import annotations
 
+UPSTREAM = None  # instalador interno original de SergioNodes; el runtime procede de Merserk/ComfyUI-DLSS5-Enhancer
+
 import argparse
 import shutil
 import sys

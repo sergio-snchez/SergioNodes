@@ -34,6 +34,8 @@ control re-runs `render()` and nothing else.
 """
 from __future__ import annotations
 
+UPSTREAM = ("😺NKD Face Rig (motor LivePortrait)", "https://github.com/Nekodificador/ComfyUI-NKD-Basic-Tools", "modalidades internas del port")
+
 import os.path as osp
 import threading
 from dataclasses import dataclass

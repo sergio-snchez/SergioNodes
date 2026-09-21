@@ -7,6 +7,8 @@ render resolution and stored as FP16.
 
 from __future__ import annotations
 
+UPSTREAM = None  # motor interno original de SergioNodes (guía temporal)
+
 from dataclasses import dataclass
 
 import numpy as np

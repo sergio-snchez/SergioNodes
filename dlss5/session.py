@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+UPSTREAM = None  # motor interno original de SergioNodes (sesión nvngx DLSS5)
+
 import subprocess
 import threading
 import time

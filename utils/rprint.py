@@ -4,6 +4,8 @@
 custom print and log functions 
 """
 
+UPSTREAM = ("LivePortrait (utils)", "https://github.com/KwaiVGI/LivePortrait", "utils vendidos via NKD")
+
 __all__ = ['rprint', 'rlog']
 
 try:

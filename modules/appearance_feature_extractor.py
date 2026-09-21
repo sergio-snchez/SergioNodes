@@ -4,6 +4,10 @@
 Appearance extractor(F) defined in paper, which maps the source image s to a 3D appearance feature volume.
 """
 
+UPSTREAM = ("LivePortrait (módulos)", "https://github.com/KwaiVGI/LivePortrait", "módulos internos vendidos via NKD")
+
+UPSTREAM = ("LivePortrait (módulos)", "https://github.com/KwaiVGI/LivePortrait", "módulos internos vendidos via NKD")
+
 import torch
 from torch import nn
 from .util import SameBlock2d, DownBlock2d, ResBlock3d

@@ -1,3 +1,5 @@
+const UPSTREAM = ["Academia SD Resolution Calc", "https://github.com/AcademiaSD/comfyui_AcademiaSD", "AcademiaSD_ResolutionCalc"];
+
 import { app } from "../../scripts/app.js";
 import { api } from "../../scripts/api.js";
 import { ComfyWidgets } from "../../scripts/widgets.js";

@@ -1,5 +1,7 @@
 # coding: utf-8
 
+UPSTREAM = ("😺NKD Basic Tools (YuNet/landmarks ONNX)", "https://github.com/Nekodificador/ComfyUI-NKD-Basic-Tools", "modalidades internas del port")
+
 import os.path as osp
 import cv2; cv2.setNumThreads(0); cv2.ocl.setUseOpenCL(False)
 import torch

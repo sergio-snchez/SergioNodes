@@ -1,5 +1,6 @@
 # (c) City96 || Apache-2.0 (apache.org/licenses/LICENSE-2.0)
 # Minified: architecture detection subset of the GGUF converter.
+UPSTREAM = ("ComfyUI-GGUF converter (subset detección de arquitectura)", "https://github.com/city96/ComfyUI-GGUF", "modalidades internas del port")
 
 class ModelTemplate:
     arch = "invalid"  # string describing architecture

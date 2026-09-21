@@ -1,3 +1,5 @@
+const UPSTREAM = null; // nodo original de SergioNodes (extensión frontend sin upstream)
+
 import { app } from "../../scripts/app.js";
 
 /** Adds a "Node ID" entry to every node's right-click context menu, in both the

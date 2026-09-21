@@ -1,4 +1,5 @@
 # (c) City96 || Apache-2.0 (apache.org/licenses/LICENSE-2.0)
+UPSTREAM = ("ComfyUI-GGUF (gguf_sd_loader / gguf_clip_loader)", "https://github.com/city96/ComfyUI-GGUF", "modalidades internas del port")
 import warnings
 import logging
 import torch

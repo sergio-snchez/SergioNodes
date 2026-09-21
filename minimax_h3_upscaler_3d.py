@@ -19,6 +19,8 @@ Características del original (portadas intactas):
 """
 from __future__ import annotations
 
+UPSTREAM = ("Minimax H3 Latent Upscaler (3D)", "https://github.com/xmarre/Comfyui_Minimax_h3_latent_Upscaler", "MinimaxH3LatentUpscaler3D")
+
 import os
 import re
 import gc

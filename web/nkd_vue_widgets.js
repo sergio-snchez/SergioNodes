@@ -1,3 +1,8 @@
+/*
+ * UPSTREAM: bundle frontend vendido desde Nekodificador/ComfyUI-NKD-Basic-Tools
+ * (NKD Face Rig). Incluye el runtime de Vue 3.5 (Vue.js, MIT) y los widgets de
+ * canvas de NKD. Sin node id de upstream: es código de soporte del pack.
+ */
 var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);

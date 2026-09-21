@@ -1,4 +1,5 @@
 # (c) City96 || Apache-2.0 (apache.org/licenses/LICENSE-2.0)
+UPSTREAM = ("ComfyUI-GGUF (descuantización)", "https://github.com/city96/ComfyUI-GGUF", "modalidades internas del port")
 import gguf
 import torch
 from tqdm import tqdm

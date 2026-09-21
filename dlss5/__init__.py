@@ -1,5 +1,6 @@
 """Client for the native DLSS 5 neural-rendering (NGX feature 18) worker."""
 
+# UPSTREAM: None — motor interno original de SergioNodes (subpack DLSS5)
 from .paths import RuntimeLayout, RuntimeMissing, find_runtime, write_config
 from .session import DlssSession
 from .settings import (

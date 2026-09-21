@@ -14,6 +14,8 @@ All structures are little-endian and tightly packed.
 
 from __future__ import annotations
 
+UPSTREAM = None  # motor interno original de SergioNodes (protocolo nvngx/reShade)
+
 import struct
 from dataclasses import dataclass
 from typing import BinaryIO

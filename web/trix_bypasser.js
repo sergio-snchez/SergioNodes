@@ -1,3 +1,5 @@
+const UPSTREAM = ["Trix Bypass", "https://github.com/buserror/comfyui-trixnodes", "TrixBypasser"];
+
 import { app } from "../../scripts/app.js";
 
 /** Trix Bypass nodes, ported into SergioNodes for the modern (Nodes 2.0)

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+UPSTREAM = None  # motor interno original de SergioNodes (encapsulado de vídeo con ffmpeg)
+
 import json
 import math
 import subprocess

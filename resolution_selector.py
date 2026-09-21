@@ -1,3 +1,5 @@
+UPSTREAM = ("Academia SD Resolution Calc", "https://github.com/AcademiaSD/comfyui_AcademiaSD", "AcademiaSD_ResolutionCalc")
+
 import math
 import folder_paths
 import server

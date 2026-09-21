@@ -12,6 +12,8 @@ when a person with small eyes drives a person with larger eyes.
 - The lip retargeting module is designed similarly to the eye retargeting module, and can also normalize the input by ensuring that
 the lips are in a closed state, which facilitates better animation driving.
 """
+UPSTREAM = ("LivePortrait (módulos)", "https://github.com/KwaiVGI/LivePortrait", "módulos internos vendidos via NKD")
+
 from torch import nn
 
 

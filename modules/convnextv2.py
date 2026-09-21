@@ -4,9 +4,10 @@
 This moudle is adapted to the ConvNeXtV2 version for the extraction of implicit keypoints, poses, and expression deformation.
 """
 
+UPSTREAM = ("LivePortrait (módulos)", "https://github.com/KwaiVGI/LivePortrait", "módulos internos vendidos via NKD")
+
 import torch
 import torch.nn as nn
-# from timm.models.layers import trunc_normal_, DropPath
 from .util import LayerNorm, DropPath, trunc_normal_, GRN
 
 __all__ = ['convnextv2_tiny']

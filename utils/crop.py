@@ -4,6 +4,8 @@
 cropping function and the related preprocess functions for cropping
 """
 
+UPSTREAM = ("LivePortrait (utils)", "https://github.com/KwaiVGI/LivePortrait", "utils vendidos via NKD")
+
 import numpy as np
 import os.path as osp
 from math import sin, cos, acos, degrees

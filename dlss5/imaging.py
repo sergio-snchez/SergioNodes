@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+UPSTREAM = None  # motor interno original de SergioNodes (tensores/imagen)
+
 import numpy as np
 import torch
 

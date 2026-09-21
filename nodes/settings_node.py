@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+UPSTREAM = ("ComfyUI-DLSS5-Enhancer (Settings)", "https://github.com/Blueforcer/ComfyUI-DLSS5-Enhancer", "DLSS5Settings")
+
 from comfy_api.latest import io
 
 from ..dlss5.settings import (

@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+UPSTREAM = ("ComfyUI-DLSS5-Enhancer", "https://github.com/Blueforcer/ComfyUI-DLSS5-Enhancer", "DLSS5EnhanceImages; DLSS5EnhanceVideoFile; DLSS5Settings")
+
 import logging
 
 from ..dlss5.paths import RuntimeLayout, find_runtime

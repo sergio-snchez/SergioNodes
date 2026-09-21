@@ -1,3 +1,5 @@
+UPSTREAM = None  # nodo original de SergioNodes; el reader de metadatos se inspira en AcademiaSD
+
 import json
 import os
 import struct

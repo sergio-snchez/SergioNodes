@@ -8,6 +8,8 @@ wrapper exists instead of relying on `python -m dlss5.selftest`.
 
 from __future__ import annotations
 
+UPSTREAM = None  # wrapper interno original de SergioNodes para el smoke test del motor DLSS5
+
 import sys
 from pathlib import Path
 

@@ -22,6 +22,8 @@ on screen.
 """
 from __future__ import annotations
 
+UPSTREAM = ("😺NKD Face Rig (backend del editor)", "https://github.com/Nekodificador/ComfyUI-NKD-Basic-Tools", "modalidades internas del port")
+
 import base64
 import io as _io
 import json

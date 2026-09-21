@@ -1,3 +1,5 @@
+const UPSTREAM = null; // nodo original de SergioNodes; el reader de metadatos se inspira en AcademiaSD
+
 import { app } from "../../scripts/app.js";
 
 const BASE_HEIGHT = 140;

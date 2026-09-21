@@ -12,6 +12,8 @@ Mirrors the stock "Compare Images" node, but for videos.
 """
 from __future__ import annotations
 
+UPSTREAM = None  # nodo original de SergioNodes (espeja el Compare Images nativo, pero para vídeo)
+
 from fractions import Fraction
 
 import torch
