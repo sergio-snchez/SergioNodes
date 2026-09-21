@@ -24,7 +24,7 @@ listado aquí **manteniendo siempre la organización/estructura de SergioNodes**
 | Multi-Lora Loader | `SergioNodes_MultiLora` / `MultiLoraLoader` | — (original) | — | MIT | Original; el reader de metadatos se inspira en `AcademiaSD` (
 [comfyui_AcademiaSD](https://github.com/AcademiaSD/comfyui_AcademiaSD) ) |
 | NKDFaceRig | `NKDFaceRig` | 😺NKD Face Rig | [Nekodificador/ComfyUI-NKD-Basic-Tools](https://github.com/Nekodificador/ComfyUI-NKD-Basic-Tools) | GPL-3.0 | Port adaptado a API V3 |
-| Trix Bypass | `TrixBypasser` / `TrixBypasserSimple` | Trix Bypass | [buserror/comfyui-trixnodes](https://github.com/buserror/comfyui-trixnodes) | GPL-3.0 | Port adaptado a Nodes 2.0 (necesita desactivar el pack original) |
+| Trix Bypass | `TrixBypasser` / `TrixBypasserSimple` | Trix Bypass | [trx7111/ComfyUI-TrixNodes](https://github.com/trx7111/ComfyUI-TrixNodes) (autor original: buserror; repo anterior eliminado/404) | GPL-3.0 | Port adaptado a Nodes 2.0 (necesita desactivar el pack original) |
 | Preview Video | `PreviewVideo` / `SergioNodes_PreviewVideo` | — (original) | — | MIT | Original (hueco entre Preview Image y Save Video) |
 | Compare Videos | `CompareVideos` / `SergioNodes_CompareVideos` | — (original, espeja el Compare Images nativo) | — | MIT | Original |
 | Minimax H3 Latent Upscaler (3D) | `MinimaxH3LatentUpscaler3D` | Minimax H3 Latent Upscaler (3D) | [xmarre/Comfyui_Minimax_h3_latent_Upscaler](https://github.com/xmarre/Comfyui_Minimax_h3_latent_Upscaler) (fork: [LBH-123-AI](https://github.com/LBH-123-AI/Comfyui_Minimax_h3_latent_Upscaler)) | — | Clon local autónomo |
@@ -60,6 +60,6 @@ listado aquí **manteniendo siempre la organización/estructura de SergioNodes**
 | `modules/*.py`, `utils/crop.py`, `utils/camera.py`, `utils/rprint.py`, `utils/timer.py`, `config/models.yaml` | LivePortrait (módulos/utils) | [KwaiVGI/LivePortrait](https://github.com/KwaiVGI/LivePortrait) | MIT | Vendidos vía el pack NKD |
 | `web/nkd_vue_widgets.js` | NKD Face Rig (bundle frontend; incluye Vue 3.5, MIT) | [Nekodificador/ComfyUI-NKD-Basic-Tools](https://github.com/Nekodificador/ComfyUI-NKD-Basic-Tools) | GPL-3.0 / MIT | Bundle vendido |
 | `web/resolution_selector.js` | Academia SD Resolution Calc | [AcademiaSD/comfyui_AcademiaSD](https://github.com/AcademiaSD/comfyui_AcademiaSD) | — | Extensión UI |
-| `web/trix_bypasser.js` | Trix Bypass | [buserror/comfyui-trixnodes](https://github.com/buserror/comfyui-trixnodes) | GPL-3.0 | Port a Nodes 2.0 |
+| `web/trix_bypasser.js` | Trix Bypass | [trx7111/ComfyUI-TrixNodes](https://github.com/trx7111/ComfyUI-TrixNodes) (autor original: buserror; repo anterior eliminado/404) | GPL-3.0 | Port a Nodes 2.0 |
 | `web/multilora_loader.js` | — (original) | — | MIT | Original SergioNodes |
 | `web/node_id_menu.js` | — (original) | — | MIT | Original SergioNodes |

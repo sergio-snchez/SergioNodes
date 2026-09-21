@@ -1,4 +1,4 @@
-const UPSTREAM = ["Trix Bypass", "https://github.com/buserror/comfyui-trixnodes", "TrixBypasser"];
+const UPSTREAM = ["Trix Bypass", "https://github.com/trx7111/ComfyUI-TrixNodes", "TrixBypasser"]; // autor original: buserror (repo anterior eliminado/404)
 
 import { app } from "../../scripts/app.js";
 

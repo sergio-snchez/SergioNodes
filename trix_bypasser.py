@@ -13,7 +13,7 @@ the modern frontend ignores. Registering them here as V3 nodes with the same
 type names keeps old workflows working; disable comfyui-trixnodes so both
 extensions do not fight over the same nodes.
 """
-UPSTREAM = ("Trix Bypass", "https://github.com/buserror/comfyui-trixnodes", "TrixBypasser")
+UPSTREAM = ("Trix Bypass", "https://github.com/trx7111/ComfyUI-TrixNodes", "TrixBypasser")  # autor original: buserror (repo anterior eliminado/404)
 
 from comfy_api.latest import io
 
