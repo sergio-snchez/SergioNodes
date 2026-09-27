@@ -28,6 +28,10 @@ listado aquí **manteniendo siempre la organización/estructura de SergioNodes**
 | Preview Video | `PreviewVideo` / `SergioNodes_PreviewVideo` | — (original) | — | MIT | Original (hueco entre Preview Image y Save Video) |
 | Compare Videos | `CompareVideos` / `SergioNodes_CompareVideos` | — (original, espeja el Compare Images nativo) | — | MIT | Original |
 | Minimax H3 Latent Upscaler (3D) | `MinimaxH3LatentUpscaler3D` | Minimax H3 Latent Upscaler (3D) | [xmarre/Comfyui_Minimax_h3_latent_Upscaler](https://github.com/xmarre/Comfyui_Minimax_h3_latent_Upscaler) (fork: [LBH-123-AI](https://github.com/LBH-123-AI/Comfyui_Minimax_h3_latent_Upscaler)) | — | Clon local autónomo |
+| Minimax H3 Project | `MinimaxH3Project` | — (original) | — | MIT | Original (`UPSTREAM = None`) |
+| Minimax H3 Chunk Anchor | `MinimaxH3ChunkAnchor` | — (original) | — | MIT | Original (`UPSTREAM = None`). Reutiliza `temporal_shape` de `comfy_extras/nodes_minimax_h3.py` |
+| Minimax H3 Chunk Vault | `MinimaxH3ChunkVault` | — (original) | — | MIT | Original (`UPSTREAM = None`) |
+| Minimax H3 Merge Project | `MinimaxH3MergeProject` | — (original) | — | MIT | Original (`UPSTREAM = None`) |
 | DLSS5 Settings | `DLSS5Settings` | — | — | — | Ver DLSS5 |
 | DLSS5 Enhance Images | `DLSS5EnhanceImages` | — | — | — | Ver DLSS5 |
 | DLSS5 Enhance Video File | `DLSS5EnhanceVideoFile` | — | — | — | Ver DLSS5 |
@@ -63,3 +67,8 @@ listado aquí **manteniendo siempre la organización/estructura de SergioNodes**
 | `web/trix_bypasser.js` | Trix Bypass | [trx7111/ComfyUI-TrixNodes](https://github.com/trx7111/ComfyUI-TrixNodes) (autor original: buserror; repo anterior eliminado/404) | GPL-3.0 | Port a Nodes 2.0 |
 | `web/multilora_loader.js` | — (original) | — | MIT | Original SergioNodes |
 | `web/node_id_menu.js` | — (original) | — | MIT | Original SergioNodes |
+| `h3_chunks.py` | — (original) | — | MIT | Motor interno: aritmética temporal/audio, anclas, rutas, índice JSON, safetensors y fusión de chunks H3 |
+| `h3_selftest.py` | — (original) | — | MIT | Suite CPU: paridad con `temporal_shape` nativo, anclas, rutas y 42.720 combinaciones de fusión |
+| `minimax_h3_project.py`, `minimax_h3_anchor.py`, `minimax_h3_vault.py`, `minimax_h3_merge.py` | — (original) | — | MIT | Los 4 nodos de H3 Long Video |
+| `make_example_workflow.py`, `validate_example_workflow.py` | — (original) | — | MIT | Generan y validan el workflow de ejemplo contra `/object_info` |
+| `example_workflows/h3_long_3x124_example.json` | — (original) | — | MIT | Workflow de ejemplo: 3 chunks de 124 frames |
