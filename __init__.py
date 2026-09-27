@@ -34,23 +34,6 @@ from .minimax_h3_upscaler_3d import (
     NODE_CLASS_MAPPINGS as MINIMAXH3_CLASS_MAPPINGS,
     NODE_DISPLAY_NAME_MAPPINGS as MINIMAXH3_DISPLAY_MAPPINGS,
 )
-from .minimax_h3_project import MinimaxH3Project
-from .minimax_h3_anchor import MinimaxH3ChunkAnchor
-from .minimax_h3_vault import MinimaxH3ChunkVault
-from .minimax_h3_merge import MinimaxH3MergeProject
-
-H3LONG_CLASS_MAPPINGS = {
-    "MinimaxH3Project": MinimaxH3Project,
-    "MinimaxH3ChunkAnchor": MinimaxH3ChunkAnchor,
-    "MinimaxH3ChunkVault": MinimaxH3ChunkVault,
-    "MinimaxH3MergeProject": MinimaxH3MergeProject,
-}
-H3LONG_DISPLAY_MAPPINGS = {
-    "MinimaxH3Project": "Minimax H3 Project",
-    "MinimaxH3ChunkAnchor": "Minimax H3 Chunk Anchor",
-    "MinimaxH3ChunkVault": "Minimax H3 Chunk Vault",
-    "MinimaxH3MergeProject": "Minimax H3 Merge Project",
-}
 
 from .nodes import DLSS5EnhanceImages, DLSS5EnhanceVideoFile, DLSS5SettingsNode
 
@@ -93,7 +76,6 @@ NODE_CLASS_MAPPINGS = {
     **PREVIEW_VIDEO_CLASS_MAPPINGS,
     **COMPARE_CLASS_MAPPINGS,
     **MINIMAXH3_CLASS_MAPPINGS,
-    **H3LONG_CLASS_MAPPINGS,
     **DLSS5_CLASS_MAPPINGS,
 }
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -104,7 +86,6 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     **PREVIEW_VIDEO_DISPLAY_MAPPINGS,
     **COMPARE_DISPLAY_MAPPINGS,
     **MINIMAXH3_DISPLAY_MAPPINGS,
-    **H3LONG_DISPLAY_MAPPINGS,
     **DLSS5_DISPLAY_MAPPINGS,
 }
 

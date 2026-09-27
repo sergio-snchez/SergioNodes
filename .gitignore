@@ -12,7 +12,3 @@ outputs/
 runtime/
 ffmpeg/
 config.json
-
-# Salida generada por validate_example_workflow.py; el que se carga en el editor
-# es h3_long_3x124_example.json (sin .api)
-example_workflows/*.api.json

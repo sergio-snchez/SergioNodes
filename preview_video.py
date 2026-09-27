@@ -24,7 +24,7 @@ class PreviewVideo(io.ComfyNode):
         return io.Schema(
             node_id="PreviewVideo",
             display_name="Preview Video",
-            category="Sergio Nodes",
+            category="video",
             search_aliases=[
                 "preview video",
                 "video preview",
