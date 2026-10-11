@@ -26,6 +26,7 @@ from .nkd_face_rig import NKDFaceRig
 from . import nkd_face_rig_routes  # noqa: F401 — registers /nkd/facerig/*
 from .trix_bypasser import TrixBypasser, TrixBypasserSimple
 from .preview_video import PreviewVideo
+from .free_vram import FreeVRAM
 from .compare_videos import (
     NODE_CLASS_MAPPINGS as COMPARE_CLASS_MAPPINGS,
     NODE_DISPLAY_NAME_MAPPINGS as COMPARE_DISPLAY_MAPPINGS,
@@ -66,6 +67,15 @@ PREVIEW_VIDEO_DISPLAY_MAPPINGS = {
     "SergioNodes_PreviewVideo": "Preview Video",
 }
 
+FREE_VRAM_CLASS_MAPPINGS = {
+    "FreeVRAM": FreeVRAM,
+    "SergioNodes_FreeVRAM": FreeVRAM,
+}
+FREE_VRAM_DISPLAY_MAPPINGS = {
+    "FreeVRAM": "Free VRAM",
+    "SergioNodes_FreeVRAM": "Free VRAM",
+}
+
 NODE_CLASS_MAPPINGS = {
     **RESOLUTION_CLASS_MAPPINGS,
     **KSAMPLER_CLASS_MAPPINGS,
@@ -74,6 +84,7 @@ NODE_CLASS_MAPPINGS = {
     **FACERIG_CLASS_MAPPINGS,
     **TRIX_CLASS_MAPPINGS,
     **PREVIEW_VIDEO_CLASS_MAPPINGS,
+    **FREE_VRAM_CLASS_MAPPINGS,
     **COMPARE_CLASS_MAPPINGS,
     **MINIMAXH3_CLASS_MAPPINGS,
     **DLSS5_CLASS_MAPPINGS,
@@ -84,6 +95,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     **GGUF_DISPLAY_MAPPINGS,
     **MULTILORA_DISPLAY_MAPPINGS,
     **PREVIEW_VIDEO_DISPLAY_MAPPINGS,
+    **FREE_VRAM_DISPLAY_MAPPINGS,
     **COMPARE_DISPLAY_MAPPINGS,
     **MINIMAXH3_DISPLAY_MAPPINGS,
     **DLSS5_DISPLAY_MAPPINGS,
