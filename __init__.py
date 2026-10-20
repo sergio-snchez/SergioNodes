@@ -59,7 +59,7 @@ RELIGHT_CLASS_MAPPINGS = {
     "RelightingNode": RelightingNode,
 }
 RELIGHT_DISPLAY_MAPPINGS = {
-    "RelightingNode": "NKD Relight",
+    "RelightingNode": "Relight",
 }
 DLSS5_DISPLAY_MAPPINGS = {
     "DLSS5Settings": "DLSS5 Settings",

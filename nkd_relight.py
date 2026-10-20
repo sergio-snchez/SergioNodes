@@ -676,7 +676,7 @@ if _HAS_COMFY:
         def define_schema(cls) -> io.Schema:
             return io.Schema(
                 node_id="RelightingNode",
-                display_name="😺NKD Relight",
+                display_name="Relight",
                 category="Sergio Nodes",
                 # Runnable on its own (blue play): the preview passes arrive on execute, so
                 # this loads the editor without running the whole graph.
