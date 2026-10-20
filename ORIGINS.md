@@ -28,6 +28,8 @@ listado aquí **manteniendo siempre la organización/estructura de SergioNodes**
 | Preview Video | `PreviewVideo` / `SergioNodes_PreviewVideo` | — (original) | — | MIT | Original (hueco entre Preview Image y Save Video) |
 | Compare Videos | `CompareVideos` / `SergioNodes_CompareVideos` | — (original, espeja el Compare Images nativo) | — | MIT | Original |
 | Minimax H3 Latent Upscaler (3D) | `MinimaxH3LatentUpscaler3D` | Minimax H3 Latent Upscaler (3D) | [xmarre/Comfyui_Minimax_h3_latent_Upscaler](https://github.com/xmarre/Comfyui_Minimax_h3_latent_Upscaler) (fork: [LBH-123-AI](https://github.com/LBH-123-AI/Comfyui_Minimax_h3_latent_Upscaler)) | — | Clon local autónomo |
+| H3 RefMod nodes (subset) | `MiniMaxH3RefModMasterExtract`, `MiniMaxH3RefModInspect`, `MiniMaxH3RefModsLoader`, `MiniMaxH3RefModSave`, `MiniMaxH3RefModApply` | Create H3 RefMod Master, Inspect H3 RefMod, Load H3 RefMods, Save H3 RefMods, Apply H3 RefMod | [Luisacaotica/ComfyUI-MiniMaxH3Mod](https://github.com/Luisacaotica/ComfyUI-MiniMaxH3Mod) | - | Clon local autonomo (subpaquete `minimax_h3_refmod/`); refmods en Documents/ComfyUI/Models/refmods |
+| H3 Relay nodes (subset) | `LabsH3PrepareVideo`, `H3RelayWindowedEdit` | H3 Prepare Video - Auto Size & Length, H3 Relay Windowed Edit - Character Swap | [akatz-ai/h3-relay](https://github.com/akatz-ai/h3-relay) | - | Clon local autonomo (subpaquete `h3_relay/`) |
 | DLSS5 Settings | `DLSS5Settings` | — | — | — | Ver DLSS5 |
 | DLSS5 Enhance Images | `DLSS5EnhanceImages` | — | — | — | Ver DLSS5 |
 | DLSS5 Enhance Video File | `DLSS5EnhanceVideoFile` | — | — | — | Ver DLSS5 |
