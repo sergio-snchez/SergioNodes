@@ -47,11 +47,19 @@ from .h3_relay_nodes import (
 )
 
 from .nodes import DLSS5EnhanceImages, DLSS5EnhanceVideoFile, DLSS5SettingsNode
+from .nkd_relight import RelightingNode
 
 DLSS5_CLASS_MAPPINGS = {
     "DLSS5Settings": DLSS5SettingsNode,
     "DLSS5EnhanceImages": DLSS5EnhanceImages,
     "DLSS5EnhanceVideoFile": DLSS5EnhanceVideoFile,
+}
+
+RELIGHT_CLASS_MAPPINGS = {
+    "RelightingNode": RelightingNode,
+}
+RELIGHT_DISPLAY_MAPPINGS = {
+    "RelightingNode": "NKD Relight",
 }
 DLSS5_DISPLAY_MAPPINGS = {
     "DLSS5Settings": "DLSS5 Settings",
@@ -100,6 +108,7 @@ NODE_CLASS_MAPPINGS = {
     **REFMOD_CLASS_MAPPINGS,
     **H3RELAY_CLASS_MAPPINGS,
     **DLSS5_CLASS_MAPPINGS,
+    **RELIGHT_CLASS_MAPPINGS,
 }
 NODE_DISPLAY_NAME_MAPPINGS = {
     **RESOLUTION_DISPLAY_MAPPINGS,
@@ -113,6 +122,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     **REFMOD_DISPLAY_MAPPINGS,
     **H3RELAY_DISPLAY_MAPPINGS,
     **DLSS5_DISPLAY_MAPPINGS,
+    **RELIGHT_DISPLAY_MAPPINGS,
 }
 
 __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS']
