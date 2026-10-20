@@ -1,0 +1,540 @@
+import { app } from "../../scripts/app.js";
+import { api } from "../../scripts/api.js";
+import { openNkdModal, nkdButton, nkdSlider } from "./nkd_modal.js";
+
+const NODE = "NKDPerspectiveUnwarp";
+const EXT = "NKD.PerspectiveDewarp";
+const ORDER = ["TL", "TR", "BR", "BL"];
+const DEFAULT = { corners: [[0.15, 0.15], [0.85, 0.2], [0.8, 0.85], [0.2, 0.8]] };
+// Per edge: the two corner indices it spans, and — for each — the perpendicular
+// corner it slides toward, so a side stretch keeps the perspective lines' angles.
+// Corner order: TL=0, TR=1, BR=2, BL=3.
+const EDGES = [
+  { c: [0, 1], anchor: [3, 2] },  // top
+  { c: [1, 2], anchor: [0, 3] },  // right
+  { c: [2, 3], anchor: [1, 0] },  // bottom
+  { c: [3, 0], anchor: [2, 1] },  // left
+];
+
+// Resolve the image filename on the node feeding `image` -> a /view URL.
+function imageUrl(node) {
+  const inp = node.inputs?.find((i) => i.name === "image");
+  if (!inp || inp.link == null) return "";
+  const links = app.graph.links;
+  const link = links instanceof Map ? links.get(inp.link) : links[inp.link];
+  if (!link) return "";
+  const src = app.graph.getNodeById?.(link.origin_id) || app.graph._nodes_by_id?.[link.origin_id];
+  const w = src?.widgets?.find((x) => x?.name === "image");
+  if (!w || typeof w.value !== "string") return "";
+  let dir = "", file = w.value;
+  const s = file.lastIndexOf("/");
+  if (s >= 0) { dir = file.slice(0, s); file = file.slice(s + 1); }
+  const u = `/view?filename=${encodeURIComponent(file)}&type=input&subfolder=${encodeURIComponent(dir)}`;
+  return api.apiURL ? api.apiURL(u) : u;
+}
+
+// The frame the backend resolved for each node, keyed by node id. The filename
+// probe above only works when a Load Image is wired straight in; anything that
+// generates or processes the image has no filename anywhere, so the node pushes
+// its resolved input on execute and this is where it lands.
+const pushedFrames = new Map();
+
+function rgbToDataUrl(bytes, w, h) {
+  const c = document.createElement("canvas");
+  c.width = w; c.height = h;
+  const ctx = c.getContext("2d");
+  if (!ctx) return "";
+  const im = ctx.createImageData(w, h);
+  for (let i = 0, j = 0, n = w * h; i < n; i++) {
+    im.data[j++] = bytes[i * 3];
+    im.data[j++] = bytes[i * 3 + 1];
+    im.data[j++] = bytes[i * 3 + 2];
+    im.data[j++] = 255;
+  }
+  ctx.putImageData(im, 0, 0);
+  return c.toDataURL("image/png");
+}
+
+function storeFrame(d) {
+  if (!d?.img) return "";
+  try {
+    const bin = atob(d.img);
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    const url = rgbToDataUrl(bytes, d.width, d.height);
+    pushedFrames.set(String(d.node_id), url);
+    return url;
+  } catch { return ""; }
+}
+
+api.addEventListener("nkd-dewarp-source", (e) => storeFrame(e?.detail));
+
+// The push only fires when the node actually executes, and ComfyUI skips it
+// whenever nothing upstream changed — so ask the backend for the frame it kept.
+async function fetchStoredFrame(nodeId) {
+  try {
+    const res = await api.fetchApi(`/nkd/vfx/source?node_id=${encodeURIComponent(nodeId)}`,
+                                   { cache: "no-store" });
+    return res.ok ? storeFrame(await res.json()) : "";
+  } catch { return ""; }
+}
+
+// Live upstream filename first — it tracks a new file with no run — then the
+// last frame this node resolved.
+function sourceUrl(node) {
+  return imageUrl(node) || pushedFrames.get(String(node.id)) || "";
+}
+
+// Run this node and its upstream dependencies, nothing else. `app.queuePrompt`
+// has no "just this node" form, so the serialised graph is intercepted for one
+// call and trimmed. Same trick as ComfyUI-NKD-Basic-Tools' spline editors.
+function collectUpstream(nodeId, output, into) {
+  if (into[nodeId] || !output[nodeId]) return;
+  into[nodeId] = output[nodeId];
+  for (const value of Object.values(output[nodeId].inputs ?? {})) {
+    if (Array.isArray(value)) collectUpstream(String(value[0]), output, into);
+  }
+}
+
+async function queueNode(node) {
+  const origQueue = api.queuePrompt;   // the method itself, so .call() works
+  try {
+    api.queuePrompt = async function (index, prompt) {
+      api.queuePrompt = origQueue;     // one call only
+      if (prompt?.output) {
+        const filtered = {};
+        collectUpstream(String(node.id), prompt.output, filtered);
+        prompt = { ...prompt, output: filtered };
+      }
+      return origQueue.call(api, index, prompt);
+    };
+    await app.queuePrompt(0, 1);
+  } catch (err) {
+    api.queuePrompt = origQueue;
+    console.error("[NKD Perspective Unwarp] queue failed:", err);
+    app.extensionManager?.toast?.add?.({
+      severity: "error", summary: "Queue Failed", detail: String(err), life: 6000,
+    });
+  }
+}
+
+function hide(w) {
+  if (!w) return;
+  w.type = "hidden"; w.hidden = true;
+  if (w.options) w.options.hidden = true;
+  w.computedHeight = 0;
+  w.computeSize = () => [0, -4];
+}
+
+// Show/hide a widget by name, remembering its original type so it can come back.
+function toggleWidget(w, show) {
+  if (!w) return;
+  if (w._origType === undefined) { w._origType = w.type; w._origCompute = w.computeSize; }
+  if (show) {
+    w.type = w._origType; w.computeSize = w._origCompute; w.hidden = false;
+    if (w.options) w.options.hidden = false;
+  } else {
+    w.type = "hidden"; w.hidden = true; w.computeSize = () => [0, -4];
+    if (w.options) w.options.hidden = true;
+  }
+}
+
+// Only surface the inputs the current aspect_source / resolution_mode needs.
+function updateVisibility(node) {
+  const get = (n) => node.widgets?.find((w) => w.name === n);
+  const aspect = get("aspect_source")?.value;
+  const res = get("resolution_mode")?.value;
+  toggleWidget(get("focal_length_mm"), aspect === "Metric");
+  toggleWidget(get("manual_ratio_w"), aspect === "Manual");
+  toggleWidget(get("manual_ratio_h"), aspect === "Manual");
+  toggleWidget(get("longest_side"), res === "Longest Side");
+  toggleWidget(get("megapixels"), res === "Megapixels");
+  node.setSize([node.size[0], node.computeSize()[1]]);
+  node.setDirtyCanvas(true, true);
+}
+
+// --- small vec + homography helpers (unit square -> quad, for the grid) --------
+const sub = (a, b) => [a[0] - b[0], a[1] - b[1]];
+const dot = (a, b) => a[0] * b[0] + a[1] * b[1];
+
+// Intersection point of line (a,b) with line (c,d). null if near-parallel.
+function lineIntersect(a, b, c, d) {
+  const rx = b[0] - a[0], ry = b[1] - a[1];
+  const sx = d[0] - c[0], sy = d[1] - c[1];
+  const den = rx * sy - ry * sx;
+  if (Math.abs(den) < 1e-9) return null;
+  const t = ((c[0] - a[0]) * sy - (c[1] - a[1]) * sx) / den;
+  return [a[0] + t * rx, a[1] + t * ry];
+}
+
+// Solve the 3x3 homography mapping the unit square [(0,0),(1,0),(1,1),(0,1)] to
+// the four dst points, via Gaussian elimination on the 8x8 DLT system.
+function homography(dst) {
+  const src = [[0, 0], [1, 0], [1, 1], [0, 1]];
+  const A = [], b = [];
+  for (let i = 0; i < 4; i++) {
+    const [x, y] = src[i], [u, v] = dst[i];
+    A.push([x, y, 1, 0, 0, 0, -u * x, -u * y]); b.push(u);
+    A.push([0, 0, 0, x, y, 1, -v * x, -v * y]); b.push(v);
+  }
+  for (let c = 0; c < 8; c++) {
+    let p = c;
+    for (let r = c + 1; r < 8; r++) if (Math.abs(A[r][c]) > Math.abs(A[p][c])) p = r;
+    [A[c], A[p]] = [A[p], A[c]]; [b[c], b[p]] = [b[p], b[c]];
+    for (let r = 0; r < 8; r++) {
+      if (r === c || Math.abs(A[c][c]) < 1e-12) continue;
+      const f = A[r][c] / A[c][c];
+      for (let k = c; k < 8; k++) A[r][k] -= f * A[c][k];
+      b[r] -= f * b[c];
+    }
+  }
+  const h = b.map((v, i) => v / A[i][i]);
+  return [[h[0], h[1], h[2]], [h[3], h[4], h[5]], [h[6], h[7], 1]];
+}
+function applyH(H, u, v) {
+  const x = H[0][0] * u + H[0][1] * v + H[0][2];
+  const y = H[1][0] * u + H[1][1] * v + H[1][2];
+  const w = H[2][0] * u + H[2][1] * v + H[2][2];
+  return [x / w, y / w];
+}
+
+function openModal(node, cornersWidget) {
+  const url = sourceUrl(node);
+  const state = (() => {
+    try { const s = JSON.parse(cornersWidget.value); if (s?.corners?.length === 4) return s; } catch {}
+    return JSON.parse(JSON.stringify(DEFAULT));
+  })();
+
+  const view = { s: 1, tx: 0, ty: 0 };   // screen = baseScreen * s + (tx,ty)
+  let gridN = 4;                          // grid divisions (0 = off)
+  let dim = 0.35;                         // darken the image beneath the overlay (0..0.8)
+  let inited = false;                     // first-resize view framing done?
+
+  // Shared NKD editor chrome — see src/nkd_modal.ts. Every exit path saves here,
+  // so the modal's own dismiss (Esc / backdrop / ✕) is wired to commit() too.
+  const modal = openNkdModal({
+    title: "😺 Perspective Unwarp",
+    hint: "corners distort · sides stretch · scroll zoom · drag empty to pan",
+    onClose: () => commit(),
+  });
+
+  const gridLbl = document.createElement("span");
+  gridLbl.style.cssText = "color:#8a92a4;min-width:56px;text-align:center";
+  const refreshGridLbl = () => { gridLbl.textContent = gridN > 0 ? `Grid ${gridN}` : "Grid off"; };
+  refreshGridLbl();
+  const gridMinus = nkdButton("−", () => { gridN = Math.max(0, gridN - 1); refreshGridLbl(); draw(); });
+  const gridPlus = nkdButton("+", () => { gridN = Math.min(16, gridN + 1); refreshGridLbl(); draw(); });
+  const resetView_ = nkdButton("Reset view", () => { resetView(); draw(); });
+  const resetPts = nkdButton("↺ Reset points", () => {
+    state.corners = JSON.parse(JSON.stringify(DEFAULT.corners));
+    draw();
+  });
+  // Darken slider (like fSpy Camera): dims the photo so the quad and grid read clearly.
+  const dimWrap = nkdSlider("Darken", { min: 0, max: 0.8, step: 0.05, value: dim },
+                            (v) => { dim = v; draw(); },
+                            "Darken the image beneath the overlay");
+  modal.footerRight.append(gridMinus, gridLbl, gridPlus, dimWrap, resetPts, resetView_);
+  modal.addPrimary("Save & close");
+
+  const wrap = modal.body;
+  const canvas = document.createElement("canvas");
+  canvas.style.cursor = "crosshair";
+  wrap.appendChild(canvas);
+
+  const ctx = canvas.getContext("2d");
+  const dpr = Math.max(window.devicePixelRatio || 1, 1);
+  const imgObj = new Image(); imgObj.crossOrigin = "anonymous";
+  let imgW = 16, imgH = 9;
+  if (url) { imgObj.onload = () => { imgW = imgObj.naturalWidth; imgH = imgObj.naturalHeight; draw(); }; imgObj.src = url; }
+
+  // Letterbox rect (CSS px) mapping relative [0,1] -> base screen, before view.
+  function baseFit() {
+    const cw = canvas.width / dpr, ch = canvas.height / dpr;
+    const r = Math.min(cw / imgW, ch / imgH);
+    const w = imgW * r, h = imgH * r;
+    return [(cw - w) / 2, (ch - h) / 2, w, h];
+  }
+  function toScreen(rel) {
+    const [ox, oy, w, h] = baseFit();
+    return [(ox + rel[0] * w) * view.s + view.tx, (oy + rel[1] * h) * view.s + view.ty];
+  }
+  function toRel(sx, sy) {
+    const [ox, oy, w, h] = baseFit();
+    const bx = (sx - view.tx) / view.s, by = (sy - view.ty) / view.s;
+    return [(bx - ox) / w, (by - oy) / h];
+  }
+  // Frame the image at ~82% with margin all round, so handles dragged off-image
+  // (e.g. stretching a side past the edge) stay on-canvas and reachable.
+  function resetView() {
+    const cw = canvas.width / dpr, ch = canvas.height / dpr;
+    view.s = 0.82;
+    view.tx = (cw / 2) * (1 - view.s);
+    view.ty = (ch / 2) * (1 - view.s);
+  }
+  const edgeMidScreen = (e) => {
+    const a = toScreen(state.corners[e.c[0]]), b = toScreen(state.corners[e.c[1]]);
+    return [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+  };
+
+  function resize() {
+    const r = wrap.getBoundingClientRect();
+    canvas.width = Math.round(r.width * dpr); canvas.height = Math.round(r.height * dpr);
+    canvas.style.width = r.width + "px"; canvas.style.height = r.height + "px";
+    if (!inited && r.width > 2) { inited = true; resetView(); }
+    draw();
+  }
+
+  // Magnifier: a zoomed inset of the source image around an image-space point,
+  // with a crosshair at the exact spot — so a big handle never hides the corner.
+  const MAG = 168, MAG_SRC = 34;   // inset size (CSS px) / source window (image px)
+  function drawMagnifier(rel, hx, hy) {
+    if (!url) return;
+    const [ox, oy, w, h] = baseFit();
+    const cw = canvas.width / dpr, ch = canvas.height / dpr;
+    // Place near the handle, flipping to stay on-canvas.
+    let bx = hx + 20, by = hy - MAG - 20;
+    if (bx + MAG > cw - 8) bx = hx - MAG - 20;
+    if (bx < 8) bx = 8;
+    if (by < 8) by = hy + 20;
+    if (by + MAG > ch - 8) by = ch - MAG - 8;
+    const ix = rel[0] * imgW, iy = rel[1] * imgH;
+    ctx.save();
+    ctx.beginPath(); ctx.rect(bx, by, MAG, MAG); ctx.clip();
+    ctx.fillStyle = "#0b0d12"; ctx.fillRect(bx, by, MAG, MAG);
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(imgObj, ix - MAG_SRC / 2, iy - MAG_SRC / 2, MAG_SRC, MAG_SRC, bx, by, MAG, MAG);
+    ctx.restore();
+    ctx.strokeStyle = "#4ab4ff"; ctx.lineWidth = 2; ctx.strokeRect(bx, by, MAG, MAG);
+    const cx = bx + MAG / 2, cy = by + MAG / 2;
+    ctx.strokeStyle = "rgba(255,80,80,0.95)"; ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(cx - 12, cy); ctx.lineTo(cx + 12, cy);
+    ctx.moveTo(cx, cy - 12); ctx.lineTo(cx, cy + 12);
+    ctx.stroke();
+  }
+
+  function draw() {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const cw = canvas.width / dpr, ch = canvas.height / dpr;
+    ctx.clearRect(0, 0, cw, ch); ctx.fillStyle = "#0b0d12"; ctx.fillRect(0, 0, cw, ch);
+    const [ox, oy, w, h] = baseFit();
+    if (url) {
+      const sx = ox * view.s + view.tx, sy = oy * view.s + view.ty;
+      ctx.drawImage(imgObj, sx, sy, w * view.s, h * view.s);
+      if (dim > 0) { ctx.fillStyle = `rgba(0,0,0,${dim})`; ctx.fillRect(sx, sy, w * view.s, h * view.s); }
+    }
+
+    // Internal perspective grid (projective, so it matches real lines).
+    if (gridN > 1) {
+      const H = homography(state.corners);
+      ctx.strokeStyle = "rgba(74,180,255,0.28)"; ctx.lineWidth = 1;
+      for (let i = 1; i < gridN; i++) {
+        const t = i / gridN;
+        let a = toScreen(applyH(H, t, 0)), b = toScreen(applyH(H, t, 1));   // vertical
+        ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+        a = toScreen(applyH(H, 0, t)); b = toScreen(applyH(H, 1, t));       // horizontal
+        ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+      }
+    }
+
+    // Quad outline.
+    ctx.strokeStyle = "#4ab4ff"; ctx.lineWidth = 2; ctx.beginPath();
+    state.corners.forEach((p, i) => {
+      const [x, y] = toScreen(p);
+      i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+    });
+    ctx.closePath(); ctx.stroke();
+
+    // Edge (side) handles — small diamonds at the midpoints.
+    EDGES.forEach((e) => {
+      const [x, y] = edgeMidScreen(e);
+      ctx.save(); ctx.translate(x, y); ctx.rotate(Math.PI / 4);
+      ctx.fillStyle = "#7ec8ff"; ctx.strokeStyle = "rgba(0,0,0,0.7)"; ctx.lineWidth = 1.5;
+      ctx.fillRect(-4, -4, 8, 8); ctx.strokeRect(-4, -4, 8, 8);
+      ctx.restore();
+    });
+
+    // Corner handles — hollow rings (so the corner shows through) + a centre dot.
+    state.corners.forEach((p, i) => {
+      const [x, y] = toScreen(p);
+      ctx.beginPath(); ctx.arc(x, y, 8, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(74,180,255,0.15)"; ctx.fill();
+      ctx.lineWidth = 2; ctx.strokeStyle = "#4ab4ff"; ctx.stroke();
+      ctx.beginPath(); ctx.arc(x, y, 1.6, 0, Math.PI * 2); ctx.fillStyle = "#fff"; ctx.fill();
+      ctx.fillStyle = "#fff"; ctx.font = "11px system-ui"; ctx.fillText(ORDER[i], x + 11, y - 9);
+    });
+
+    // Magnifier while dragging a HANDLE — never while panning. Panning has no
+    // point to magnify, and drag.lastRel is undefined there, so it used to park
+    // a loupe in the middle of the image every time you moved the view.
+    if (drag && (drag.kind === "corner" || drag.kind === "edge")) {
+      const rel = drag.kind === "corner" ? state.corners[drag.i] : (drag.lastRel || [0.5, 0.5]);
+      const [hx, hy] = toScreen(rel);
+      drawMagnifier(rel, hx, hy);
+    }
+  }
+
+  let drag = null;   // {kind:'corner'|'edge'|'pan', ...}
+  const evScreen = (e) => {
+    const b = canvas.getBoundingClientRect();
+    return [e.clientX - b.left, e.clientY - b.top];
+  };
+
+  canvas.onpointerdown = (e) => {
+    const [mx, my] = evScreen(e);
+    // Corners take priority over edges.
+    for (let i = 0; i < 4; i++) {
+      const [x, y] = toScreen(state.corners[i]);
+      if (Math.hypot(x - mx, y - my) < 14) {
+        drag = { kind: "corner", i }; canvas.setPointerCapture(e.pointerId); draw(); return;
+      }
+    }
+    for (let k = 0; k < EDGES.length; k++) {
+      const [x, y] = edgeMidScreen(EDGES[k]);
+      if (Math.hypot(x - mx, y - my) < 12) {
+        drag = { kind: "edge", e: EDGES[k], lastRel: toRel(mx, my) };
+        canvas.setPointerCapture(e.pointerId); draw(); return;
+      }
+    }
+    // Empty space -> pan.
+    drag = { kind: "pan", lastX: mx, lastY: my };
+    canvas.setPointerCapture(e.pointerId);
+  };
+
+  canvas.onpointermove = (e) => {
+    if (!drag) return;
+    const [mx, my] = evScreen(e);
+    if (drag.kind === "corner") {
+      state.corners[drag.i] = toRel(mx, my);   // unclamped: corners may sit off-image
+    } else if (drag.kind === "edge") {
+      const r = toRel(mx, my);
+      const delta = sub(r, drag.lastRel);
+      drag.lastRel = r;
+      // Slide the whole side while keeping the perspective. The side keeps aiming at
+      // ITS vanishing point: where this side and the opposite side meet (the opposite
+      // side runs through the two anchors). Move the side's midpoint by the drag, draw
+      // the new side-line through that VP, then re-intersect it with each rail (the two
+      // adjacent edges the corners ride on). Both corners land on one line → no tilt;
+      // each stays on its rail → adjacent angles preserved. The rails do NOT pass
+      // through this VP, so the intersections are proper finite points.
+      const [c0, c1] = drag.e.c;
+      const [a0, a1] = drag.e.anchor;
+      const P0 = state.corners[c0], P1 = state.corners[c1];
+      const A0 = state.corners[a0], A1 = state.corners[a1];
+      const mid = [(P0[0] + P1[0]) / 2 + delta[0], (P0[1] + P1[1]) / 2 + delta[1]];
+      // VP where this side meets the opposite side (null when they're parallel).
+      const vp = lineIntersect(P0, P1, A0, A1);
+      // Second point of the new side-line: the VP, or (sides parallel) a point that
+      // keeps the side parallel to itself.
+      const q = vp || [mid[0] + (P1[0] - P0[0]), mid[1] + (P1[1] - P0[1])];
+      const n0 = lineIntersect(mid, q, P0, A0);
+      const n1 = lineIntersect(mid, q, P1, A1);
+      if (n0) state.corners[c0] = n0;
+      if (n1) state.corners[c1] = n1;
+    } else if (drag.kind === "pan") {
+      view.tx += mx - drag.lastX; view.ty += my - drag.lastY;
+      drag.lastX = mx; drag.lastY = my;
+    }
+    draw();
+  };
+
+  const end = (e) => {
+    if (!drag) return;
+    drag = null;
+    try { if (e && e.pointerId != null) canvas.releasePointerCapture(e.pointerId); } catch {}
+    draw();
+  };
+  // Every way a drag can stop, not just the happy one. Releasing the button
+  // outside the browser window never delivers pointerup, so `drag` stayed set
+  // for good and the magnifier was repainted by every later redraw — it looked
+  // frozen on screen and hid whatever you were trying to click next.
+  canvas.onpointerup = end;
+  canvas.onpointerleave = end;
+  canvas.onpointercancel = end;
+  canvas.onlostpointercapture = end;
+  const onBlur = () => end(null);
+  window.addEventListener("blur", onBlur);
+
+  // Scroll to zoom toward the cursor.
+  canvas.onwheel = (e) => {
+    e.preventDefault();
+    const [mx, my] = evScreen(e);
+    const k = e.deltaY < 0 ? 1.12 : 1 / 1.12;
+    const ns = Math.max(0.2, Math.min(20, view.s * k));
+    const f = ns / view.s;
+    view.tx = mx - (mx - view.tx) * f;
+    view.ty = my - (my - view.ty) * f;
+    view.s = ns;
+    draw();
+  };
+
+  // Called by the modal on every exit path (primary button, ✕, Esc, backdrop).
+  // The chrome owns removing the overlay and its key listener.
+  function commit() {
+    const json = JSON.stringify(state);
+    const moved = json !== cornersWidget.value;
+    cornersWidget.value = json;
+    node.setDirtyCanvas(true, true);
+    ro.disconnect();
+    window.removeEventListener("blur", onBlur);
+    // Run the node so its preview and everything downstream show the quad that
+    // was just placed. Only when the corners actually moved — closing without
+    // touching anything runs nothing.
+    if (moved) void queueNode(node);
+  }
+
+  const ro = new ResizeObserver(resize); ro.observe(wrap);
+  resize();
+}
+
+app.registerExtension({
+  name: EXT,
+  async beforeRegisterNodeDef(nodeType, nodeData) {
+    if (nodeData.name !== NODE) return;
+    const orig = nodeType.prototype.onNodeCreated;
+    nodeType.prototype.onNodeCreated = function () {
+      const r = orig?.apply(this, arguments);
+      const cornersWidget = this.widgets?.find((w) => w.name === "corners");
+      hide(cornersWidget);
+      const idx = this.inputs?.findIndex((i) => i.name === "corners");
+      if (idx !== undefined && idx >= 0) this.removeInput(idx);
+      const node = this;
+      this.addWidget("button", "📐 Edit corners", null, () => {
+        void (async () => {
+          if (!sourceUrl(node)) await fetchStoredFrame(String(node.id));
+          if (!sourceUrl(node)) {
+            app.extensionManager?.toast?.add?.({
+              severity: "warn", summary: "Perspective Unwarp",
+              detail: "Connect an image and run this node once (blue play) to load the plate into the editor.",
+              life: 6000,
+            });
+            return;
+          }
+          openModal(node, cornersWidget);
+        })();
+      });
+
+      // Wire the combos so hiding follows selection, then apply the initial state.
+      for (const name of ["aspect_source", "resolution_mode"]) {
+        const w = this.widgets?.find((x) => x.name === name);
+        if (!w) continue;
+        const prev = w.callback;
+        w.callback = function () {
+          const rr = prev?.apply(this, arguments);
+          updateVisibility(node);
+          return rr;
+        };
+      }
+      updateVisibility(this);
+      return r;
+    };
+    // A workflow loaded from disk restores widget values after creation — re-apply
+    // visibility so a saved Metric/Manual/Megapixels selection shows the right rows.
+    const origConfigure = nodeType.prototype.onConfigure;
+    nodeType.prototype.onConfigure = function () {
+      const r = origConfigure?.apply(this, arguments);
+      updateVisibility(this);
+      return r;
+    };
+  },
+});
