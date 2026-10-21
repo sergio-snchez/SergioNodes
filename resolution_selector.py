@@ -135,8 +135,13 @@ async def get_image_size(request):
     if not filename:
         return web.json_response({"error": "No filename"}, status=400)
 
-    # Only image files may be opened through this endpoint.
-    if not filename.lower().split("?")[0].endswith(ALLOWED_IMAGE_EXTS):
+    # Only image files may be opened through this endpoint. The filename may
+    # carry an annotation such as "name.png [input]", so validate the bare name.
+    try:
+        bare_name = folder_paths.annotated_filepath(filename)[0]
+    except Exception:
+        bare_name = filename
+    if not bare_name.lower().split("?")[0].endswith(ALLOWED_IMAGE_EXTS):
         return web.json_response({"error": "Invalid file type"}, status=400)
 
     try:
