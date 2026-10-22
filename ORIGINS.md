@@ -31,6 +31,7 @@ listado aquí **manteniendo siempre la organización/estructura de SergioNodes**
 | H3 RefMod nodes (subset) | `MiniMaxH3RefModMasterExtract`, `MiniMaxH3RefModInspect`, `MiniMaxH3RefModsLoader`, `MiniMaxH3RefModSave`, `MiniMaxH3RefModApply` | Create H3 RefMod Master, Inspect H3 RefMod, Load H3 RefMods, Save H3 RefMods, Apply H3 RefMod | [Luisacaotica/ComfyUI-MiniMaxH3Mod](https://github.com/Luisacaotica/ComfyUI-MiniMaxH3Mod) | - | Clon local autonomo (subpaquete `minimax_h3_refmod/`); refmods en Documents/ComfyUI/Models/refmods |
 | H3 Relay nodes (subset) | `LabsH3PrepareVideo`, `H3RelayWindowedEdit` | H3 Prepare Video - Auto Size & Length, H3 Relay Windowed Edit - Character Swap | [akatz-ai/h3-relay](https://github.com/akatz-ai/h3-relay) | - | Clon local autonomo (subpaquete `h3_relay/`) |
 | NKD Relight | `RelightingNode` | NKD Relight | [Nekodificador/ComfyUI-NKD-VFX-Tools](https://github.com/Nekodificador/ComfyUI-NKD-VFX-Tools) | - | Clon local autonomo (archivo `nkd_relight.py` + widget `relighting_widget.js`) |
+| NKD Klein Reference Control | `NKDKleinReferenceControl` | NKD Klein Reference Control | [Nekodificador/ComfyUI-NKD-Klein-Tools](https://github.com/Nekodificador/ComfyUI-NKD-Klein-Tools) | - | Clon local autonomo (subpaquete `klein_tools/`) |
 | DLSS5 Settings | `DLSS5Settings` | — | — | — | Ver DLSS5 |
 | DLSS5 Enhance Images | `DLSS5EnhanceImages` | — | — | — | Ver DLSS5 |
 | DLSS5 Enhance Video File | `DLSS5EnhanceVideoFile` | — | — | — | Ver DLSS5 |
